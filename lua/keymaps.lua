@@ -115,6 +115,7 @@ vim.keymap.set("n", "<leader>t", function()
     else
         vim.cmd.term()
         term_buf = vim.api.nvim_get_current_buf()
+        vim.api.nvim_buf_set_name(term_buf, "term:" .. vim.fn.jobpid(vim.b[term_buf].terminal_job_id))
     end
     vim.wo.winfixheight = true
     vim.cmd.startinsert()
