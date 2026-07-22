@@ -29,6 +29,18 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 
+-- window navigation --
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to below window" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above window" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+
+-- window resize --
+vim.keymap.set("n", "<M-=>", "<C-w>5>", { desc = "Increase window width" })
+vim.keymap.set("n", "<M-->", "<C-w>5<", { desc = "Decrease window width" })
+vim.keymap.set("n", "<M-t>", "<C-w>+", { desc = "Increase window height" })
+vim.keymap.set("n", "<M-s>", "<C-w>-", { desc = "Decrease window height" })
+
 vim.keymap.set("n", "<leader>w", ":write<CR>", { desc = "Save file" })
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit window" })
 
