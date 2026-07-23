@@ -14,7 +14,7 @@ vim.opt.inccommand = "split"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- window splits -- 
+-- window splits --
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
@@ -32,7 +32,7 @@ vim.opt.winborder = "rounded"
 vim.opt.laststatus = 3
 vim.opt.termguicolors = true
 
--- misc -- 
+-- misc --
 vim.opt.completeopt = "menuone,noselect,fuzzy,nosort"
 vim.opt.shortmess:append("c")
 vim.opt.clipboard:append("unnamedplus")
@@ -40,8 +40,8 @@ vim.opt.isfname:append("@-@")
 
 -- highlight yanking --
 vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Highlight when yanking (copying) text",
-    callback = function()
-        vim.hl.on_yank()
-    end,
+	desc = "Highlight when yanking (copying) text",
+	callback = function()
+		vim.hl.on_yank()
+	end,
 })

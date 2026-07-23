@@ -47,45 +47,62 @@ vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit window" })
 vim.cmd.packadd("nohlsearch")
 vim.keymap.set("n", "<C-c>", ":nohl<CR>", { desc = "Clear search highlighting", silent = true })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word cursor is on globally" })
+vim.keymap.set(
+	"n",
+	"<leader>s",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	{ desc = "Replace word cursor is on globally" }
+)
 -- vim.keymap.set("n", "<leader>X", "<cmd>!chmod +x %<CR>", { silent = true, desc = "makes file executable" })
 
 -- native undotree --
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<leader>u", function()
-    local third_width = math.floor(vim.api.nvim_win_get_width(0) / 3)
-    require("undotree").open({ command = third_width .. "vnew" })
+	local third_width = math.floor(vim.api.nvim_win_get_width(0) / 3)
+	require("undotree").open({ command = third_width .. "vnew" })
 end, { desc = "Toggle builtin undotree" })
 
 -- restart --
 vim.keymap.set("n", "<leader>r", "<cmd>restart<cr>", { desc = "Restart config" })
 vim.keymap.set("n", "<leader>lr", function()
-    vim.cmd("lsp restart")
-    vim.notify("LSP restarted", vim.log.levels.INFO)
+	vim.cmd("lsp restart")
+	vim.notify("LSP restarted", vim.log.levels.INFO)
 end, { desc = "Restart LSP" })
 
 -- mini.trailspace --
-vim.keymap.set("n", "<leader>cw", function() require("mini.trailspace").trim() end, { desc = "Erase whitespace" })
+vim.keymap.set("n", "<leader>cw", function()
+	require("mini.trailspace").trim()
+end, { desc = "Erase whitespace" })
 
 -- mini.files --
 vim.keymap.set("n", "-", "<cmd>lua MiniFiles.open()<CR>", { desc = "Toggle mini file explorer" })
 vim.keymap.set("n", "<leader>-", function()
-    require("mini.files").open(vim.api.nvim_buf_get_name(0), false)
-    require("mini.files").reveal_cwd()
+	require("mini.files").open(vim.api.nvim_buf_get_name(0), false)
+	require("mini.files").reveal_cwd()
 end, { desc = "Toggle into currently opened file" })
 
 -- mini.pick --
 vim.keymap.set("n", "<leader>pf", function()
-    require("mini.pick").builtin.cli(
-        { command = { "rg", "--files", "--hidden", "--glob", "!.git", "--color=never" } },
-        { source = { name = "Files (rg)" } }
-    )
+	require("mini.pick").builtin.cli(
+		{ command = { "rg", "--files", "--hidden", "--glob", "!.git", "--color=never" } },
+		{ source = { name = "Files (rg)" } }
+	)
 end, { desc = "Mini file picker" })
-vim.keymap.set("n", "<leader>ps", function() require("mini.pick").builtin.grep({ pattern = vim.fn.expand("<cword>") }) end, { desc = "Grep word under cursor" })
-vim.keymap.set("n", "<leader>vh", function() require("mini.pick").builtin.help() end, { desc = "Help" })
-vim.keymap.set("n", "<leader>xx", function() require("mini.extra").pickers.diagnostic() end, { desc = "Diagnostics" })
-vim.keymap.set("n", "<leader>pk", function() require("mini.extra").pickers.keymaps() end, { desc = "Search keymaps" })
-vim.keymap.set("n", "<leader>pd", function() require("mini.extra").pickers.lsp({ scope = "document_symbol" }) end, { desc = "Search references" })
+vim.keymap.set("n", "<leader>ps", function()
+	require("mini.pick").builtin.grep({ pattern = vim.fn.expand("<cword>") })
+end, { desc = "Grep word under cursor" })
+vim.keymap.set("n", "<leader>vh", function()
+	require("mini.pick").builtin.help()
+end, { desc = "Help" })
+vim.keymap.set("n", "<leader>xx", function()
+	require("mini.extra").pickers.diagnostic()
+end, { desc = "Diagnostics" })
+vim.keymap.set("n", "<leader>pk", function()
+	require("mini.extra").pickers.keymaps()
+end, { desc = "Search keymaps" })
+vim.keymap.set("n", "<leader>pd", function()
+	require("mini.extra").pickers.lsp({ scope = "document_symbol" })
+end, { desc = "Search references" })
 
 -- vim-fugitive --
 vim.keymap.set("n", "<leader>gg", "<cmd>tabnew | Git | only<cr>", { desc = "Fugitive full page new tab" })
@@ -96,27 +113,27 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 local term_buf
 vim.keymap.set("n", "<leader>t", function()
-    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
-        local win = vim.fn.bufwinid(term_buf)
-        if win ~= -1 then
-            if vim.api.nvim_get_current_win() == win then
-                vim.api.nvim_win_close(win, true)
-                return
-            end
-            vim.api.nvim_set_current_win(win)
-            vim.cmd.startinsert()
-            return
-        end
-    end
+	if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+		local win = vim.fn.bufwinid(term_buf)
+		if win ~= -1 then
+			if vim.api.nvim_get_current_win() == win then
+				vim.api.nvim_win_close(win, true)
+				return
+			end
+			vim.api.nvim_set_current_win(win)
+			vim.cmd.startinsert()
+			return
+		end
+	end
 
-    vim.cmd("botright 12new")
-    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
-        vim.cmd("buffer " .. term_buf)
-    else
-        vim.cmd.term()
-        term_buf = vim.api.nvim_get_current_buf()
-        vim.api.nvim_buf_set_name(term_buf, "term:" .. vim.fn.jobpid(vim.b[term_buf].terminal_job_id))
-    end
-    vim.wo.winfixheight = true
-    vim.cmd.startinsert()
+	vim.cmd("botright 12new")
+	if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+		vim.cmd("buffer " .. term_buf)
+	else
+		vim.cmd.term()
+		term_buf = vim.api.nvim_get_current_buf()
+		vim.api.nvim_buf_set_name(term_buf, "term:" .. vim.fn.jobpid(vim.b[term_buf].terminal_job_id))
+	end
+	vim.wo.winfixheight = true
+	vim.cmd.startinsert()
 end, { desc = "Toggle bottom terminal" })

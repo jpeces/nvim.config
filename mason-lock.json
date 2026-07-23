@@ -1,0 +1,8 @@
+{
+  "lua-language-server": "3.18.2",
+  "marksman": "2026-02-08",
+  "ruff": "0.15.22",
+  "rust-analyzer": "2026-07-20",
+  "stylua": "v2.5.2",
+  "ty": "0.0.61"
+}
